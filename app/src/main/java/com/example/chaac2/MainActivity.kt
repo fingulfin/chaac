@@ -20,6 +20,7 @@ class MainActivity : AppCompatActivity() {
 
 
     var estacion=Estacion()
+    var observacionActual=ObservacionActual()
     val timer = Timer()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,6 +39,13 @@ class MainActivity : AppCompatActivity() {
                 GlobalScope.launch(Dispatchers.IO){
 
                     var txt = findViewById<TextView>(R.id.tutu)
+                    var txthora=findViewById<TextView>(R.id.hora)
+                    var txtLLuviaDiaria=findViewById<TextView>(R.id.txtLluviaDiaria)
+                    var txtLLuviaMensual=findViewById<TextView>(R.id.txtLluviaMensual)
+                    var txtLLuviaAnual=findViewById<TextView>(R.id.txtLluviaAnual)
+                    var txtTempMaxima=findViewById<TextView>(R.id.txtTempMax)
+                    var txtTempMinima=findViewById<TextView>(R.id.txtTempMin)
+
                     var retrofit = Retrofit.Builder()
                         .baseUrl("https://api.weatherlink.com/")
                         .addConverterFactory(JacksonConverterFactory.create())
@@ -58,6 +66,27 @@ class MainActivity : AppCompatActivity() {
 
                     //Aqui viene la magia para compartir con el activity BusquedasActvity
                     //nuestra variable usuarios de arriba
+                    //Convertimos lluvia a mm:
+                  var lluviaDiariaInches=        estacion.davis_current_observation?.rain_day_in?.toFloat()!!
+                  var lluviaDiaraMm=lluviaDiariaInches*25.4
+
+                    lluviaDiaraMm=Math.round(lluviaDiaraMm * 10.0) / 10.0
+
+                    var lluviaMensualInches=        estacion.davis_current_observation?.rain_month_in?.toFloat()!!
+                    var lluviaMensualMm=lluviaMensualInches*25.4
+                    lluviaMensualMm=Math.round(lluviaMensualMm * 10.0) / 10.0
+
+                    var lluviaAnualInches=        estacion.davis_current_observation?.rain_year_in?.toFloat()!!
+                    var lluviaAnualMm=lluviaAnualInches*25.4
+                    lluviaAnualMm=Math.round(lluviaAnualMm * 10.0) / 10.0
+
+                    var temperaturaMaxima=estacion.davis_current_observation?.temp_day_high_f?.toFloat()!!;
+                    temperaturaMaxima=(temperaturaMaxima-32)/1.8f
+                    temperaturaMaxima=Math.round(temperaturaMaxima*10)/10.0f
+
+                    var temperaturaMinima=estacion.davis_current_observation?.temp_day_low_f?.toFloat()!!;
+                    temperaturaMinima=(temperaturaMinima-32)/1.8f
+                    temperaturaMinima=Math.round(temperaturaMinima*10)/10.0f
 
 
                     Log.i("TTT","Usuarios encontrados ${estacion?.temp_c}")
@@ -65,6 +94,13 @@ class MainActivity : AppCompatActivity() {
                     //para el de thread principal de la UI
                     launch(Dispatchers.Main) {
                         txt.text=estacion?.temp_c
+                       txthora.text=estacion?.observation_time
+                        txtLLuviaDiaria.text=""+lluviaDiaraMm
+                        txtLLuviaMensual.text=""+lluviaMensualMm
+                        txtLLuviaAnual.text=""+lluviaAnualMm
+                        txtTempMaxima.text=""+temperaturaMaxima
+                        txtTempMinima.text=""+temperaturaMinima
+
                     }
                     //
 
@@ -72,7 +108,7 @@ class MainActivity : AppCompatActivity() {
                 }
              //   println("Timer ticked!")
             }
-        }, 0, 10000)
+        }, 0, 20000)
 
 
 

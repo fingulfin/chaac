@@ -8,6 +8,10 @@ import com.fasterxml.jackson.annotation.JsonProperty
 class Estacion{
 
 var temp_c:String?=null
+var observation_time:String?=null
+    var davis_current_observation:ObservacionActual?=null
+
+
                  //  @JsonProperty("nombre") var nombre:String?,
                 //   @JsonProperty("idAndroid") var idAndroid:String?,
                   /*  @JsonProperty("coordenadas")  var coordenadas:ArrayList<Coordenada>? */
