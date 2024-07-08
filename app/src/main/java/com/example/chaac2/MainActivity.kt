@@ -38,6 +38,8 @@ class MainActivity : AppCompatActivity() {
 
                 GlobalScope.launch(Dispatchers.IO){
 
+            //Si esta muy buena
+
                     var txt = findViewById<TextView>(R.id.tutu)
                     var txthora=findViewById<TextView>(R.id.hora)
                     var txtLLuviaDiaria=findViewById<TextView>(R.id.txtLluviaDiaria)
