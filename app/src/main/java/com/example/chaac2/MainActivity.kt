@@ -22,6 +22,12 @@ class MainActivity : AppCompatActivity() {
     var estacion=Estacion()
     var observacionActual=ObservacionActual()
     val timer = Timer()
+    var viento:Float?=0.0f
+
+
+    fun holaMundo():String{
+        return "Holaaaaa"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +41,11 @@ class MainActivity : AppCompatActivity() {
 //Malo
         timer.schedule(object : TimerTask() {
             override fun run() {
+
+                var saludar=::holaMundo
+
+
+                Log.i("XY", "hOLA MUNDO ${saludar()}")
 
                 GlobalScope.launch(Dispatchers.IO){
 
